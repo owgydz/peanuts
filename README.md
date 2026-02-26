@@ -1,9 +1,9 @@
 # Peanuts
 
-![Version](https://img.shields.io/badge/version-1.0.r_3-orange)
+![Version](https://img.shields.io/badge/version-1.0.r_3-blue)
 ![Language](https://img.shields.io/badge/language-Python-blue)
 ![Status](https://img.shields.io/badge/status-stable-green)
-![License](https://img.shields.io/badge/license-MIT-green)
+![License](https://img.shields.io/badge/license-apache-green)
 
 
 Peanuts is a fun Python-based programming language with its own syntax and runtime, modules, and more.
