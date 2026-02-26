@@ -1,0 +1,2 @@
+class TranspileError(Exception):
+    pass
