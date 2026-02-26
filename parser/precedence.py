@@ -9,6 +9,10 @@ PRECEDENCE = {
     "MINUS": 5,
     "STAR": 6,
     "SLASH": 6,
+    "GREATER_EQUAL": 4,
+    "LESS_EQUAL": 4,
+    "AND": 2,
+    "OR": 1
 }
 
 def get_precedence(token_type):

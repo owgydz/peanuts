@@ -31,3 +31,6 @@ class TokenType(Enum):
     COMMA = auto()
     IMPORT = auto()
     DOT = auto()
+    AND = auto()
+    OR = auto()
+    NOT = auto()
