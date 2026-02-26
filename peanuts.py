@@ -39,6 +39,7 @@ def handle_help_flag(args):
         print("  peanuts transpile <file.nut>")
         print("  peanuts pkg install <repo>")
         print("  peanuts pkg list")
+        print("  peanuts pkg remove <package>")
         print("")
         print("Flags:")
         print("  --warnings   Enable static warnings")
