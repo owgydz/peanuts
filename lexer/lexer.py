@@ -16,6 +16,8 @@ KEYWORDS = {
     "and": TokenType.AND,
     "or": TokenType.OR,
     "not": TokenType.NOT,
+    "true": TokenType.TRUE,
+    "false": TokenType.FALSE,
 }
 
 
