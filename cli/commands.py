@@ -6,41 +6,49 @@ from pkg.manager import PackageManager
 def handle_command(args):
     if not args:
         print("Peanuts CLI")
-        print("Usage:")
-        print("  peanuts run file.nut")
-        print("  peanuts build file.nut")
-        print("  peanuts transpile file.nut")
-        print("  peanuts pkg install owner/repo")
-        print("  peanuts pkg list")
         return
+
+    warnings_enabled = "--warnings" in args
+    debug = "--debug" in args
+    no_color = "--no-color" in args
+
+    # Remove flags from args list
+    args = [
+        a for a in args
+        if a not in ("--warnings", "--debug", "--no-color")
+    ]
+
+    from runtime.io import get_io
+    io = get_io()
+
+    if debug:
+        io.enable_debug()
+
+    if no_color:
+        io.disable_colors()
 
     command = args[0]
 
-    try:
-        if command == "run":
-            run_file(args[1])
+    if command == "run":
+        run_file(args[1], warnings_enabled)
 
-        elif command == "build":
-            filepath = args[1]
-            build_file(filepath)
+    elif command == "build":
+        output = "build.py"
+        if "-o" in args:
+            idx = args.index("-o")
+            output = args[idx + 1]
 
-        elif command == "transpile":
-            transpile_file(args[1])
+        build_file(args[1], output)
 
-        elif command == "pkg":
-            manager = PackageManager()
+    elif command == "transpile":
+        transpile_file(args[1])
 
-            if args[1] == "install":
-                manager.install(args[2])
+    elif command == "pkg":
+        manager = PackageManager()
+        if args[1] == "install":
+            manager.install(args[2])
+        elif args[1] == "list":
+            print(manager.list_installed())
 
-            elif args[1] == "list":
-                print(manager.list_installed())
-
-            else:
-                print("Unknown pkg command")
-
-        else:
-            print("Unknown command")
-
-    except IndexError:
-        print("Missing required arguments.")
+    else:
+        print("Unknown command")

@@ -1,5 +1,7 @@
 import os
 import types
+import traceback
+import time
 
 from .builtins import build_builtins
 from .io import get_io
@@ -23,7 +25,6 @@ class RuntimeEnvironment:
 
 
     def import_module(self, module_name):
-        # Return cached module if already loaded
         if module_name in self.modules:
             return self.modules[module_name]
 
@@ -34,6 +35,7 @@ class RuntimeEnvironment:
 
         with open(module_path, "r", encoding="utf-8") as f:
             source = f.read()
+
         lexer = Lexer(source)
         tokens = lexer.tokenize()
 
@@ -57,7 +59,7 @@ class RuntimeEnvironment:
         return module
 
     def find_module(self, module_name):
-        # 1. Check stdlib
+        # Check stdlib
         stdlib_path = os.path.join(
             os.path.dirname(__file__),
             "..",
@@ -68,7 +70,7 @@ class RuntimeEnvironment:
         if os.path.exists(stdlib_path):
             return stdlib_path
 
-        # 2. Check installed packages
+        # Check installed packages
         pkg_path = os.path.join(
             ".peanuts",
             "packages",
@@ -81,8 +83,31 @@ class RuntimeEnvironment:
 
         return None
 
-    def execute(self, python_code: str):
+
+    def execute(self, python_code: str, filename="(runtime)"):
+        start_time = time.time()
+
         try:
             exec(python_code, self.globals)
+
         except Exception as e:
-            self.io.handle_exception(e)
+            tb = traceback.extract_tb(e.__traceback__)
+
+            if tb:
+                last = tb[-1]
+                line_number = last.lineno
+                function_name = last.name
+            else:
+                line_number = "unknown"
+                function_name = "unknown"
+
+            print("\n🥜 Runtime Error")
+            print(f"  File: {filename}")
+            print(f"  Line: {line_number}")
+            print(f"  In: {function_name}()")
+            print(f"  Message: {str(e)}")
+
+        finally:
+            if self.io.debug_mode:
+                duration = time.time() - start_time
+                print(f"\n🥜 [DEBUG] Execution time: {duration:.6f}s")

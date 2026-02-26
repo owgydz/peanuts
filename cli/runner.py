@@ -16,7 +16,7 @@ def run_file(filepath):
     with open("generated.py", "w") as f:
         f.write(python_code)
     runtime = RuntimeEnvironment()
-    runtime.execute(python_code)
+    runtime.execute(python_code, filepath)
 
 
 def build_file(filepath, output_path="build.py"):
