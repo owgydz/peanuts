@@ -34,3 +34,5 @@ class TokenType(Enum):
     AND = auto()
     OR = auto()
     NOT = auto()
+    FALSE = auto()
+    TRUE = auto()

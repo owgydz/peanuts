@@ -49,6 +49,8 @@ def handle_command(args):
             manager.install(args[2])
         elif args[1] == "list":
             print(manager.list_installed())
+        elif args[1] == "remove":
+            manager.remove(args[2])
 
     else:
         print("Unknown command")

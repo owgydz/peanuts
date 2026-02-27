@@ -78,3 +78,8 @@ class MemberAccess(ASTNode):
     def __init__(self, object_, property_):
         self.object = object_
         self.property = property_
+
+class UnaryExpression(ASTNode):
+    def __init__(self, operator, operand):
+        self.operator = operator
+        self.operand = operand

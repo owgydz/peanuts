@@ -10,6 +10,7 @@ class Parser:
         self.position = 0
         self.current_scope = Scope()
 
+
     def peek(self):
         return self.tokens[self.position]
 
@@ -35,7 +36,6 @@ class Parser:
             return self.advance()
         return None
 
-
     def parse(self):
         statements = []
 
@@ -47,7 +47,6 @@ class Parser:
             statements.append(self.parse_statement())
 
         return Program(statements)
-
 
     def parse_statement(self):
         token = self.peek()
@@ -73,12 +72,12 @@ class Parser:
         return Expression(self.parse_expression())
 
     def parse_import(self):
-        self.advance()  # consume IMPORT
+        self.advance()
         module_name = self.expect_type("IDENTIFIER").value
         return ImportStatement(module_name)
 
     def parse_function(self):
-        self.advance()  # consume NUT
+        self.advance()
         name = self.expect_type("IDENTIFIER").value
 
         self.expect_type("LPAREN")
@@ -91,14 +90,14 @@ class Parser:
         return FunctionDef(name, params, body)
 
     def parse_variable(self):
-        self.advance()  # consume JAR
+        self.advance()
         name = self.expect_type("IDENTIFIER").value
         self.expect_type("EQUAL")
         value = self.parse_expression()
         return VariableAssign(name, value)
 
     def parse_if(self):
-        self.advance()  # consume CRUNCH
+        self.advance()
         condition = self.parse_expression()
         self.expect_type("COLON")
         body = self.parse_block()
@@ -112,7 +111,7 @@ class Parser:
         return IfStatement(condition, body, else_body)
 
     def parse_for(self):
-        self.advance()  # consume CHEW
+        self.advance()
         iterator = self.expect_type("IDENTIFIER").value
         self.expect_type("IN")
         iterable = self.parse_expression()
@@ -122,10 +121,9 @@ class Parser:
         return ForLoop(iterator, iterable, body)
 
     def parse_return(self):
-        self.advance()  # consume SPREAD
+        self.advance()
         value = self.parse_expression()
         return ReturnStatement(value)
-
 
     def parse_block(self):
         self.expect_type("NEWLINE")
@@ -142,9 +140,8 @@ class Parser:
         self.expect_type("DEDENT")
         return Block(statements)
 
-
     def parse_expression(self, precedence=0):
-        left = self.parse_primary()
+        left = self.parse_unary()
 
         while True:
             token = self.peek()
@@ -159,6 +156,16 @@ class Parser:
 
         return left
 
+    def parse_unary(self):
+        token = self.peek()
+
+        if token.type.name in ("NOT", "MINUS"):
+            operator = self.advance()
+            operand = self.parse_unary()
+            return UnaryExpression(operator, operand)
+
+        return self.parse_primary()
+
     def parse_primary(self):
         token = self.advance()
 
@@ -168,14 +175,22 @@ class Parser:
         if token.type.name == "STRING":
             return Literal(token.value)
 
+        if token.type.name == "TRUE":
+            return Literal(True)
+
+        if token.type.name == "FALSE":
+            return Literal(False)
+
         if token.type.name == "IDENTIFIER":
             node = Identifier(token.value)
+
+            # Member access chain
             while self.peek().type.name == "DOT":
-                self.advance()  # consume DOT
+                self.advance()
                 property_name = self.expect_type("IDENTIFIER").value
                 node = MemberAccess(node, property_name)
 
-            # Handle function call
+            # Function call
             if self.peek().type.name == "LPAREN":
                 return self.parse_call_from_node(node)
 
@@ -194,7 +209,6 @@ class Parser:
 
         self.expect_type("RPAREN")
         return CallExpression(node, args)
-
 
     def parse_parameters(self):
         params = []

@@ -9,7 +9,7 @@ import sys
 from cli.main import main as cli_main
 
 
-VERSION = "1.0_r3"
+VERSION = "1.0.2_r6"
 
 
 def print_banner():
@@ -39,6 +39,7 @@ def handle_help_flag(args):
         print("  peanuts transpile <file.nut>")
         print("  peanuts pkg install <repo>")
         print("  peanuts pkg list")
+        print("  peanuts pkg remove <package>")
         print("")
         print("Flags:")
         print("  --warnings   Enable static warnings")
