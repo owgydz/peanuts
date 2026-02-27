@@ -1,6 +1,7 @@
 # Peanuts Language Syntax
 
-Version: 1.0.2_r4  
+Docs Version: 100.25
+Peanut Version: 1.0.2_r6
 Status: Stable (1.0 line)
 
 ---
@@ -50,7 +51,6 @@ Indentation defines scope for:
 
 - Loops
 
-Classes (1.1+)
 
 Example:
 
@@ -104,7 +104,8 @@ Booleans map to Python's True and False.
 
 Functions are declared using `nut`.
 
-```nut add(a, b):
+```
+nut add(a, b):
     spread a + b
 ```
 ### Calling a function:
