@@ -1,6 +1,6 @@
 # Peanuts
 
-![Version](https://img.shields.io/badge/version-1.0.r_3-blue)
+![Version](https://img.shields.io/badge/version-1.0.r_6-blue)
 ![Language](https://img.shields.io/badge/language-Python-blue)
 ![Status](https://img.shields.io/badge/status-stable-green)
 ![License](https://img.shields.io/badge/license-apache-green)
