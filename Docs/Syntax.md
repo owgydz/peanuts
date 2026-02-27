@@ -1,8 +1,10 @@
 # Peanuts Language Syntax
 
 Docs Version: 100.25
+
 Peanut Version: 1.0.2_r6
-Status: Stable (1.0 line)
+
+
 
 ---
 
